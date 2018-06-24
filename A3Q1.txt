@@ -1,0 +1,259 @@
+import java.util.Random;
+import java.util.Scanner;
+
+
+ class Bank {
+	private String customerName;
+	private String accountNo;
+	private String type_of_account;
+	private double accountBalance;
+	
+	
+	
+	public String getCustomerName() {
+		return customerName;
+	}
+
+
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+
+
+	public String getType_of_account() {
+		return type_of_account;
+	}
+
+
+
+	public void setType_of_account(String type_of_account) {
+		this.type_of_account = type_of_account;
+	}
+
+
+
+	public double getAccountBalance() {
+		return accountBalance;
+	}
+
+
+
+	public void setAccountBalance(double accountBalance) {
+		this.accountBalance = accountBalance;
+	}
+
+         void init(String name,String type_of_account, double initialBalance)
+         {     
+             setCustomerName(name);
+             setAccountBalance(initialBalance);
+		setType_of_account(type_of_account);	
+			
+         }
+
+	void deposit(double amount){
+		accountBalance+=amount;
+		System.out.println("Your amount has been deposited");
+	}
+/*	double withdraw(double amount){
+		if(accountBalance>amount){
+		accountBalance = accountBalance-amount;
+		}
+		else{
+			System.out.println("Sorry!! Your account has less balance");
+		}
+		return accountBalance;
+	}*/
+         void random1()
+   { Random r=new Random();
+        
+            accountNo = 10000+r.nextInt(89999)+"";
+     //  System.out.println(" Account number = "+ accountnumber);
+   }
+	
+	/*void random1(){
+		Random rand = new Random();
+		 accountNo ="" + rand.nextInt(10) + rand.nextInt(10)+ rand.nextInt(10)+
+		rand.nextInt(10)+ rand.nextInt(10);
+	}*/
+}
+
+
+
+
+ class SavingAccount extends  Bank{
+int interest = 5;
+
+private double accountBalance = super.getAccountBalance();
+
+double withdraw(double amount){
+		if(super.getAccountBalance()>amount){
+                    double a= super.getAccountBalance();
+		setAccountBalance(a-amount);
+		}
+		else{
+			System.out.println("Sorry!! Your account has less balance");
+		}
+		return accountBalance;}
+
+
+public void display(){
+	double accountBalance = super.getAccountBalance();
+	accountBalance = accountBalance+(accountBalance*5)/100;
+	System.out.println(accountBalance);
+}
+}
+
+
+class CurrentAccount extends Bank
+{
+    final double minbalance=500;
+    
+    double accountBalance = super.getAccountBalance();
+  //  System.out.println( accountBalance );
+
+    double withdraw(double amount){
+		if(super.getAccountBalance()>amount){
+		double c =super.getAccountBalance()-amount;
+		      if(c<minbalance)
+                      {
+                          System.out.println("Account balance is less than minimum balance");
+                          double m= c-100;
+                         super.setAccountBalance(m);
+                         System.out.println("balance is "+ m);
+                      }
+                      else{
+                        System.out.println("balance is" + c)  ;
+                      super.setAccountBalance(c);}
+                }
+		else{
+			System.out.println("Sorry!! Your account has less balance");
+		}
+		return accountBalance;}
+    
+    public void display(){
+	double accountBalance =super.getAccountBalance();
+	
+	System.out.println("Your account balance is"+ accountBalance);
+	                                                 
+}
+
+
+}
+
+    
+    public class BankMainClass {
+        
+        public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Welcome!");
+                
+                System.out.println("What type of account do you want to open?\n 1. Saving Account \n 2. Current Account");
+                int x = sc.nextInt();
+                
+                
+		System.out.println("\nEnter your name");
+		String name = sc.next();
+		System.out.println("Enter the initial amount you want to deposit in your account ");
+		double initialbalance = sc.nextDouble();
+		
+		
+		
+		int y;
+		do{
+		switch(x)
+                {
+                    case 1:
+                        SavingAccount sa =new SavingAccount();
+                        sa.init(name,"Saving Account",initialbalance);
+                        sa.random1();
+                        System.out.println("Congrats! Your account has been created ");
+                        
+			do{
+				System.out.println("Enter '1' to deposit money");
+				System.out.println("Enter '2' to withdraw money");
+				System.out.println("Enter '3' to display current balance");
+				y = sc.nextInt();
+				switch(y){
+					case 1:
+						System.out.println("Enter the amount you want to deposit");
+						double amount = sc.nextDouble();
+						sa.deposit(amount);
+						break;
+					case 2:
+						System.out.println("Enter the amount you want to withdraw");
+						amount = sc.nextDouble();
+						sa.withdraw(amount);
+						break;
+					case 3:
+						sa.display();
+						break;
+						
+				}
+				}while(y==1||y==2||y==3);
+			System.exit(0);
+			break;
+		case 2:
+			CurrentAccount ca = new CurrentAccount();
+                        ca.init(name,"Current Account",initialbalance);
+			
+			ca.random1();
+			System.out.println("Congrats! Your account has been created ");
+			do{
+			System.out.println("Enter '1' to deposit money");
+			System.out.println("Enter '2' to withdraw money");
+			System.out.println("Enter '3' to display current balance");
+			y = sc.nextInt();
+			switch(y){
+				case 1:
+					System.out.println("Enter the amount you want to deposit");
+					double amount = sc.nextDouble();
+					ca.deposit(amount);
+					break;
+				case 2:
+					System.out.println("Enter the amount you want to withdraw");
+					amount = sc.nextDouble();
+					ca.withdraw(amount);
+					break;
+				case 3:
+					ca.display();
+					break;
+					
+			}
+			}while(y==1||y==2||y==3);
+			System.exit(0);
+			break;
+		case 3:
+			System.exit(0);
+		default:
+			System.out.println("Wrong Choice!");
+				
+		}
+		}while(x==1||x==2);		
+		
+		
+}
+		
+		
+	}
+
+
+
+                        
+                
+    
+

@@ -1,0 +1,237 @@
+package javaapplication4;
+
+import static java.lang.System.exit;
+import java.util.*;
+
+ class Account {
+  private  String name;
+ private static  double balance;
+private    String accountnumber;
+    Account()
+    {
+    }
+   
+   Account(String name,double balance)
+   {
+       this.name=name;
+       this.balance=balance;}
+   void accountno()
+   { Random r=new Random();
+        
+           String accountnumber = 10000+r.nextInt(89999)+"";
+       System.out.println(" Account number = "+ accountnumber);
+   }
+public void deposit(double damount)
+  { if(damount>0)
+  {         setBalance(getBalance() + damount);
+    System.out.println("AMOUNT DEPOSITED ="+ damount);}
+  
+
+    }
+ void display()
+ {  System.out.println("********************");
+     System.out.println("\nName: " + getName() + "\n"  + "Balance $" + getBalance() );
+    
+ }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the balance
+     */
+    public static double  getBalance() {
+        return balance;
+    }
+
+    /**
+     * @param aBalance the balance to set
+     */
+    public static void setBalance(double aBalance) {
+        balance = aBalance;
+    }
+}
+ class SavingAccount extends Account
+ {
+  final double InterestRate=5;
+ private double maxwithdraw;
+  final double minbalance=500;
+
+  void setLIMIT()
+  {      System.out.println("************************************** ");
+      System.out.println("Saving Account Created! ");
+     
+  System.out.println("************************************** ");
+      System.out.println("SET MAXIMUM WITHDRAWAL AMOUNT LIMIT");
+           Scanner s=new Scanner(System.in);
+          maxwithdraw= s.nextInt();
+  }
+    
+    public static  double getBalance()
+ {  double x=(( Account.getBalance()*5)/100)+ Account.getBalance();
+     return x;
+ }
+  
+   
+   
+       void withdraw(double withdrawamt)
+	{
+		
+		
+	//	amt=KB.nextLong();
+		 if(withdrawamt<=maxwithdraw)
+                 {  
+                     if(super.getBalance()>=(withdrawamt+minbalance))
+                         
+                         
+                 {       double a=  super.getBalance()-withdrawamt;
+                     
+                     setBalance(a);
+               System.out.println( "AMOUNT WITHDRAWN = "+ withdrawamt ); }
+		
+		else
+		{
+			System.out.println("Less Balance..Transaction Failed..");
+		}
+                 }
+                 else
+                 {System.out.println("not permitted to withdraw amount more than maximum amount ");
+	 }
+
+   }
+   }
+    class CurrentAccount extends Account
+    {
+              void  createaccount()
+              {
+                  System.out.println("Account Creation under process.........");
+                  System.out.println("**********************************************");
+              }
+    
+        void withdraw(double withdrawamt)
+        {  if(withdrawamt<= super.getBalance())
+            {	setBalance(super.getBalance() - withdrawamt);
+                System.out.println("amount withdrawn");}
+		
+		else
+		{   double x=(withdrawamt-super.getBalance());
+                     setBalance(-x);
+			System.out.println(x+" will be deducted later");
+		}
+    }}
+
+
+  public class MainClass
+        
+{  String username;
+ double bl;
+ 
+    
+    public static void main(String[] args) {
+        String username;
+ double bl;
+ int n;
+ int n1=0;
+ Scanner KB=new Scanner(System.in);
+    do{
+        System.out.println("create an account");
+        System.out.println("1.Saving account");
+        System.out.println("2.Current account");
+          
+        
+         n=KB.nextInt();
+         if(n==1)
+            
+             break;
+        if(n==2)
+                  {
+                      System.out.println("Do you have trading license?");
+                       System.out.println("1.yes");
+                  System.out.println("2.NO"); 
+                 Scanner sc=new Scanner(System.in);
+         n1=sc.nextInt();  
+        
+                  switch (n1)
+                  {
+                      case 1: CurrentAccount ca=new CurrentAccount();
+                          ca.createaccount();
+                               break;
+                      case 2:System.out.println("Can't open account without lisence");
+                              
+                  }}}while(n1==2);
+
+            
+         System.out.println("enter details:");
+         System.out.println("======================");
+          KB.nextLine();
+         System.out.print("Enter Name: ");
+		username=KB.nextLine();
+               
+		System.out.print("Enter Balance: ");
+		bl=KB.nextDouble();
+                Account a=new Account(username,bl);
+                a.accountno();
+                SavingAccount sa1=new SavingAccount();
+                if(n==1)
+                {sa1.setLIMIT();}
+                if(n1==1)
+                {System.out.println("CURRENT ACCOUNT CREATED");
+                }
+                CurrentAccount ca=new CurrentAccount();
+                  
+                System.out.println("======================");
+               int ch;
+		do
+		{
+			System.out.println("1.Deposit\n");
+			System.out.println("2.Withdraw\n");
+                          System.out.println("3.Check Balance\n");
+                          System.out.println("4.EXIT\n");
+                        
+			System.out.println("Ur Choice :");
+			ch=KB.nextInt();
+			switch(ch)
+			{ 
+               
+                            case 1:
+                                
+                                System.out.println("enter money to be deposited");
+                               int damt= KB.nextInt();
+                           a.deposit(damt);
+                           break;
+                           
+                            case 2:System.out.println("enter money to be withdraw");
+                               int wamt= KB.nextInt();
+                                if(n==1)
+                                    sa1.withdraw(wamt);
+                                else
+                                    ca.withdraw(wamt);
+                                break;
+                                
+                            case 3: a.display();
+                                     System.out.println("AMOUNT WITH INTEREST: " + SavingAccount.getBalance());
+                            break;
+                            case 4:
+                                exit(1);
+                        }}
+                        while(n!=0);
+                }
+                                
+
+                                
+                                
+                                
+                         
+                                                                     
+        
+		
+        
+
+        
+    }
+    
+
